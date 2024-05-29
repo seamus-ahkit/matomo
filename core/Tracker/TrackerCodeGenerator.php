@@ -79,6 +79,10 @@ class TrackerCodeGenerator
         preg_match('~^(http|https)://(.*)$~D', $piwikUrl, $matches);
         $piwikUrl = rtrim(@$matches[2], "/");
 
+        if (substr($piwikUrl, 0, 4) === 'www.') {
+            $piwikUrl = substr($piwikUrl, 4);
+        }
+
         // Build optional parameters to be added to text
         $options = '';
         $optionsBeforeTrackerUrl = '';
@@ -293,6 +297,10 @@ class TrackerCodeGenerator
             }
 
             $referrerParsed = parse_url($site_url);
+
+            if (substr($referrerParsed['host'], 0, 4) === 'www.') {
+                $referrerParsed['host'] = substr($referrerParsed['host'], 4);
+            }
 
             if (!isset($firstHost) && isset($referrerParsed['host'])) {
                 $firstHost = $referrerParsed['host'];
